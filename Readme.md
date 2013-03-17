@@ -29,6 +29,8 @@ fork and install dependences(coffee, less and browserify):
     sudo npm install -g coffee-script
     sudo npm install -g browserify
     sudo npm install -g less
+    sudo npm install node-minify
+
 
 And then update submodule
 
