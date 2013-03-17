@@ -7,6 +7,21 @@
   color: #333;
   line-height: 18px;
 }
+.petal .reply textarea {
+  width: 100%;
+  min-height: 200px;
+  overflow: auto;
+  border: 1px solid #ccc;
+  border-radius: 1px;
+  -webkit-border-radius: 1px;
+  -moz-border-radius: 1px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+  outline: none;
+}
+.petal .reply textarea:focus {
+  outline: 1px solid #5ca9e4;
+  box-shadow: 0 0 0 2px rgba(70, 161, 231, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+}
 .petal a {
   text-decoration: none;
   color: #4183c4;
@@ -14,14 +29,14 @@
 .petal a:visited {
   color: #4183c4;
 }
-.petal ul {
+.petal .comments ul {
   display: block;
   margin: 0;
   padding: 0;
   border-top: 1px solid #ddd;
   list-style: none;
 }
-.petal ul li {
+.petal .comments ul li {
   list-style: none;
   border-bottom: 1px solid #ddd;
   padding: 15px;
@@ -29,23 +44,23 @@
   display: list-item;
   overflow: auto;
 }
-.petal ul li .user {
+.petal .comments ul li .user {
   width: 70px;
   float: left;
 }
-.petal ul li .user img {
+.petal .comments ul li .user img {
   display: block;
   border-radius: 4px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
 }
-.petal ul li .user a {
+.petal .comments ul li .user a {
   display: block;
   margin-top: 6px;
   width: 50px;
   text-align: center;
 }
-.petal ul li .content pre {
+.petal .comments ul li .content pre {
   background-color: #f8f8f8;
   border: 1px solid #ccc;
   overflow: auto;

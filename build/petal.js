@@ -1,6 +1,6 @@
 ;(function(e,t,n,r){function i(r){if(!n[r]){if(!t[r]){if(e)return e(r);throw new Error("Cannot find module '"+r+"'")}var s=n[r]={exports:{}};t[r][0](function(e){var n=t[r][1][e];return i(n?n:e)},s,s.exports)}return n[r].exports}for(var s=0;s<r.length;s++)i(r[s]);return i})(typeof require!=="undefined"&&require,{1:[function(require,module,exports){
 (function() {
-  var $, api_base, load_comments, load_textarea, marked, petal;
+  var $, api_base, load_comments, load_reply, marked, petal;
 
   $ = jQuery;
 
@@ -17,8 +17,9 @@
       this.repo = repo;
       this.issue_id = issue_id;
       this.api_url = api_base + this.repo + "/issues/" + this.issue_id + "/comments";
-      load_comments();
-      return load_textarea();
+      $(".petal").append("<div class=\"comments\"></div><div class=\"reply\" ></div>");
+      load_reply();
+      return load_comments();
     }
   };
 
@@ -28,18 +29,18 @@
     return $.getJSON(petal.api_url + "?callback=?", function(response) {
       var com, comments, _i, _len, _results;
       comments = response.data;
-      $(".petal").append("<ul></ul>");
+      $(".petal .comments").append("<ul></ul>");
       _results = [];
       for (_i = 0, _len = comments.length; _i < _len; _i++) {
         com = comments[_i];
-        _results.push($(".petal ul").append("      <li>        <div class=\"user\">                    <img src=\"https://secure.gravatar.com/avatar/" + com.user.gravatar_id + "?s=50\" />          <a class=\"username\" href=\"https://github.com/" + com.user.login + "\" >" + com.user.login + "</a>        </div>        <div class=\"content\">          <div class=\"body\"" + marked(com.body) + "</div>        </div>      </li>      "));
+        _results.push($(".petal .comments ul").append("      <li>        <div class=\"user\">                    <img src=\"https://secure.gravatar.com/avatar/" + com.user.gravatar_id + "?s=50\" />          <a class=\"username\" href=\"https://github.com/" + com.user.login + "\" >" + com.user.login + "</a>        </div>        <div class=\"content\">          <div class=\"body\"" + marked(com.body) + "</div>        </div>      </li>      "));
       }
       return _results;
     });
   };
 
-  load_textarea = function() {
-    return $(".petal").append("  <div class=\"textarea\">    <textarea  </div>  ");
+  load_reply = function() {
+    return $(".petal .reply").append("    <textarea></textarea>  ");
   };
 
 }).call(this);

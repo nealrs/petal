@@ -11,17 +11,18 @@ petal =
     this.repo = repo
     this.issue_id = issue_id
     this.api_url = api_base + this.repo + "/issues/" + this.issue_id + "/comments"
+    $(".petal").append("<div class=\"comments\"></div><div class=\"reply\" ></div>")
+    load_reply()
     load_comments()
-    load_textarea()
 
 $.petal = petal
 
 load_comments = -> $.getJSON(petal.api_url+"?callback=?",
   (response)->
     comments = response.data
-    $(".petal").append("<ul></ul>")
+    $(".petal .comments").append("<ul></ul>")
     for com in comments
-      $(".petal ul").append("
+      $(".petal .comments ul").append("
       <li>
         <div class=\"user\">
           
@@ -35,9 +36,8 @@ load_comments = -> $.getJSON(petal.api_url+"?callback=?",
       ")
   )
 
-load_textarea = ->
-  $(".petal").append("
-  <div class=\"textarea\">
-    <textarea
-  </div>
+
+load_reply = -> 
+  $(".petal .reply").append("
+    <textarea></textarea>
   ")
