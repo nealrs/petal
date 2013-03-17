@@ -1,0 +1,51 @@
+.petal {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  font-weight: normal;
+  background-color: #fbfbfb;
+  color: #333;
+}
+.petal a {
+  text-decoration: none;
+}
+.petal ul {
+  display: block;
+  list-style: none;
+}
+.petal ul li {
+  list-style: none;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  display: list-item;
+}
+.petal ul li .user {
+  width: 70px;
+  float: left;
+}
+.petal ul li .user img {
+  display: block;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  behavior: url(/static/PIE.htc);
+}
+.petal ul li .user a {
+  display: block;
+  margin-top: 6px;
+  width: 50px;
+  text-align: center;
+}
+.petal ul li .content pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  behavior: url(/static/PIE.htc);
+}
