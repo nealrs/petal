@@ -7,6 +7,19 @@
   color: #333;
   line-height: 18px;
 }
+.petal .footer {
+  color: #777;
+  text-align: center;
+}
+.petal .footer a {
+  color: #333;
+}
+.petal .footer a:visited {
+  color: #333;
+}
+.petal .reply {
+  padding: 15px;
+}
 .petal .reply textarea {
   width: 100%;
   min-height: 200px;

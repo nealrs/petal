@@ -11,11 +11,14 @@ petal =
     this.repo = repo
     this.issue_id = issue_id
     this.api_url = api_base + this.repo + "/issues/" + this.issue_id + "/comments"
-    $(".petal").append("<div class=\"comments\"></div><div class=\"reply\" ></div>")
+    $(".petal").append("<div class=\"comments\"></div><div class=\"reply\" ></div><div class=\"footer\"></div>")
     load_reply()
+    load_footer()
     load_comments()
 
 $.petal = petal
+
+load_footer = -> $(".petal .footer").html("By <a href=\"https://github.com/hit9/petal\">hit9/petal</a> @Github")
 
 load_comments = -> $.getJSON(petal.api_url+"?callback=?",
   (response)->
