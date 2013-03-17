@@ -18,7 +18,7 @@ petal =
 
 $.petal = petal
 
-load_footer = -> $(".petal .footer").html("By <a href=\"https://github.com/hit9/petal\">hit9/petal</a> @Github")
+load_footer = -> $(".petal .footer").html("By <a href=\"https://github.com/hit9/petal\">petal</a>")
 
 load_comments = -> $.getJSON(petal.api_url+"?callback=?",
   (response)->
@@ -42,5 +42,6 @@ load_comments = -> $.getJSON(petal.api_url+"?callback=?",
 
 load_reply = -> 
   $(".petal .reply").append("
+    <p class=\"note\">Require Github account.(Comments are parsed with <a href=\"http://github.github.com/github-flavored-markdown/\">GitHub Flavored Markdown</a>)</p>
     <textarea></textarea>
   ")

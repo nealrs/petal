@@ -27,7 +27,7 @@
   $.petal = petal;
 
   load_footer = function() {
-    return $(".petal .footer").html("By <a href=\"https://github.com/hit9/petal\">hit9/petal</a> @Github");
+    return $(".petal .footer").html("By <a href=\"https://github.com/hit9/petal\">petal</a>");
   };
 
   load_comments = function() {
@@ -45,7 +45,7 @@
   };
 
   load_reply = function() {
-    return $(".petal .reply").append("    <textarea></textarea>  ");
+    return $(".petal .reply").append("    <p class=\"note\">Require Github account.(Comments are parsed with <a href=\"http://github.github.com/github-flavored-markdown/\">GitHub Flavored Markdown</a>)</p>    <textarea></textarea>  ");
   };
 
 }).call(this);
