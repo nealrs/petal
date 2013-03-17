@@ -2,7 +2,6 @@
     border-radius: @radius; 
     -webkit-border-radius: @radius;
     -moz-border-radius: @radius; 
-    behavior: url(/static/PIE.htc);
 }
 
 .petal {
@@ -12,18 +11,27 @@
     font-weight: normal;
     background-color: #fbfbfb;
     color: #333;
+    line-height: 18px; 
     a{
         text-decoration: none;
+        color: #4183c4;
+    }
+    a:visited{
+        color: #4183c4;
     }
     ul {
         display: block;
+        margin: 0;
+        padding: 0;
+        border-top: 1px solid #ddd;
         list-style: none;
         li{
             list-style: none;
-            border-top: 1px solid #ddd;
             border-bottom: 1px solid #ddd;
-            padding: 10px;
+            padding: 15px;
+            padding-bottom: 5px;
             display: list-item;
+            overflow: auto;
             .user{
                width: 70px;
                float: left;
@@ -42,8 +50,6 @@
                 pre{
                     background-color: #f8f8f8; 
                     border: 1px solid #ccc; 
-                    font-size: 13px; 
-                    line-height: 19px; 
                     overflow: auto; 
                     padding: 6px 10px; 
                     .border-radius(3px);

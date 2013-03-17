@@ -12,6 +12,7 @@ petal =
     this.issue_id = issue_id
     this.api_url = api_base + this.repo + "/issues/" + this.issue_id + "/comments"
     load_comments()
+    load_textarea()
 
 $.petal = petal
 
@@ -34,3 +35,9 @@ load_comments = -> $.getJSON(petal.api_url+"?callback=?",
       ")
   )
 
+load_textarea = ->
+  $(".petal").append("
+  <div class=\"textarea\">
+    <textarea
+  </div>
+  ")

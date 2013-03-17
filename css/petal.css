@@ -5,20 +5,29 @@
   font-weight: normal;
   background-color: #fbfbfb;
   color: #333;
+  line-height: 18px;
 }
 .petal a {
   text-decoration: none;
+  color: #4183c4;
+}
+.petal a:visited {
+  color: #4183c4;
 }
 .petal ul {
   display: block;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid #ddd;
   list-style: none;
 }
 .petal ul li {
   list-style: none;
-  border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
-  padding: 10px;
+  padding: 15px;
+  padding-bottom: 5px;
   display: list-item;
+  overflow: auto;
 }
 .petal ul li .user {
   width: 70px;
@@ -29,7 +38,6 @@
   border-radius: 4px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
-  behavior: url(/static/PIE.htc);
 }
 .petal ul li .user a {
   display: block;
@@ -40,12 +48,9 @@
 .petal ul li .content pre {
   background-color: #f8f8f8;
   border: 1px solid #ccc;
-  font-size: 13px;
-  line-height: 19px;
   overflow: auto;
   padding: 6px 10px;
   border-radius: 3px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
-  behavior: url(/static/PIE.htc);
 }
