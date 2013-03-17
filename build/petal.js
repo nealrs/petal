@@ -1,6 +1,6 @@
 ;(function(e,t,n,r){function i(r){if(!n[r]){if(!t[r]){if(e)return e(r);throw new Error("Cannot find module '"+r+"'")}var s=n[r]={exports:{}};t[r][0](function(e){var n=t[r][1][e];return i(n?n:e)},s,s.exports)}return n[r].exports}for(var s=0;s<r.length;s++)i(r[s]);return i})(typeof require!=="undefined"&&require,{1:[function(require,module,exports){
 (function() {
-  var $, api_base, load_comments, load_footer, load_reply, marked, petal;
+  var $, api_base, authorize, load_comments, load_footer, load_reply, marked, petal, post_reply, warning_hide, warning_show;
 
   $ = jQuery;
 
@@ -45,7 +45,37 @@
   };
 
   load_reply = function() {
-    return $(".petal .reply").append("    <p class=\"note\">Require Github account.(Comments are parsed with <a href=\"http://github.github.com/github-flavored-markdown/\">GitHub Flavored Markdown</a>)</p>    <textarea></textarea>  ");
+    $(".petal .reply").append("    <p class=\"note\">Require Github account.</p>    <p class=\"warning\"></p>    <textarea id=\"petal-textarea\"></textarea>    <p class=\"note\" >Press Ctrl+Enter to post your comment.</p>  ");
+    return $("#petal-textarea").keydown(function(e) {
+      var content;
+      if (e.keyCode === 10 || e.keyCode === 13 && e.ctrlKey) {
+        content = $("#petal-textarea").val();
+        if (content) {
+          return post_reply(content);
+        } else {
+          return warning_show("Comment field was blank");
+        }
+      }
+    });
+  };
+
+  post_reply = function(content) {
+    var storage;
+    storage = window.localStorage;
+    if (storage.getItem("petal_token") === null) {
+      return authorize();
+    }
+  };
+
+  authorize = function() {};
+
+  warning_show = function(msg) {
+    $(".warning").show();
+    return $(".warning").text(msg);
+  };
+
+  warning_hide = function() {
+    return $(".warning").hide();
   };
 
 }).call(this);

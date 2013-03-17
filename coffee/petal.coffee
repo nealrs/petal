@@ -11,6 +11,7 @@ petal =
     this.repo = repo
     this.issue_id = issue_id
     this.api_url = api_base + this.repo + "/issues/" + this.issue_id + "/comments"
+ 
     $(".petal").append("<div class=\"comments\"></div><div class=\"reply\" ></div><div class=\"footer\"></div>")
     load_reply()
     load_footer()
@@ -42,6 +43,36 @@ load_comments = -> $.getJSON(petal.api_url+"?callback=?",
 
 load_reply = -> 
   $(".petal .reply").append("
-    <p class=\"note\">Require Github account.(Comments are parsed with <a href=\"http://github.github.com/github-flavored-markdown/\">GitHub Flavored Markdown</a>)</p>
-    <textarea></textarea>
+    <p class=\"note\">Require Github account.</p>
+    <p class=\"warning\"></p>
+    <textarea id=\"petal-textarea\"></textarea>
+    <p class=\"note\" >Press Ctrl+Enter to post your comment.</p>
   ")
+  # listen to Ctrl+Enter
+  $("#petal-textarea").keydown((e)->
+    if e.keyCode == 10 || e.keyCode == 13 && e.ctrlKey
+      content = $("#petal-textarea").val()
+      if content
+        post_reply(content)
+      else
+        warning_show("Comment field was blank")
+  )
+
+
+post_reply = (content) ->
+  storage = window.localStorage
+  if storage.getItem("petal_token") == null
+    return authorize()
+  # TODO
+  # post stuff
+
+authorize = ->
+  # TODO
+  # authorize stuff
+
+warning_show = (msg) ->
+  $(".warning").show()
+  $(".warning").text(msg)
+
+warning_hide = ->
+  $(".warning").hide()
