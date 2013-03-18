@@ -27,16 +27,19 @@ $.petal = petal
 
 load_footer = -> $(".petal .footer").html("By <a href=\"https://github.com/hit9/petal\">petal</a>")
 
+render_body = (com_body)->
+  str = marked(com_body)
+  return str.replace(/\B@([\w-]+) /gm, "<a href=\"https://github.com/$1\" target=\"_blank\">@$1 </a>")
+
 append_com = (com)->
   $(".petal .comments ul").append("
       <li>
         <div class=\"user\">
-          
           <img src=\"https://secure.gravatar.com/avatar/" + com.user.gravatar_id + "?s=50\" />
           <a class=\"username\" href=\"https://github.com/"+com.user.login+"\" >"+com.user.login+"</a>
         </div>
         <div class=\"content\">
-          <div class=\"body\" >" + marked(com.body) + "</div>
+          <div class=\"body\" >" + render_body(com.body) + "</div>
         </div>
       </li>
   ")

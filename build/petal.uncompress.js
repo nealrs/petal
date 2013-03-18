@@ -1,6 +1,6 @@
 ;(function(e,t,n,r){function i(r){if(!n[r]){if(!t[r]){if(e)return e(r);throw new Error("Cannot find module '"+r+"'")}var s=n[r]={exports:{}};t[r][0](function(e){var n=t[r][1][e];return i(n?n:e)},s,s.exports)}return n[r].exports}for(var s=0;s<r.length;s++)i(r[s]);return i})(typeof require!=="undefined"&&require,{1:[function(require,module,exports){
 (function() {
-  var $, api_base, append_com, authorize, client_id, err, load_comments, load_footer, load_reply, marked, petal, post_reply, proxy_url, test_token, test_un_reply;
+  var $, api_base, append_com, authorize, client_id, err, load_comments, load_footer, load_reply, marked, petal, post_reply, proxy_url, render_body, test_token, test_un_reply;
 
   $ = jQuery;
 
@@ -36,8 +36,14 @@
     return $(".petal .footer").html("By <a href=\"https://github.com/hit9/petal\">petal</a>");
   };
 
+  render_body = function(com_body) {
+    var str;
+    str = marked(com_body);
+    return str.replace(/\B@([\w-]+) /gm, "<a href=\"https://github.com/$1\" target=\"_blank\">@$1 </a>");
+  };
+
   append_com = function(com) {
-    return $(".petal .comments ul").append("      <li>        <div class=\"user\">                    <img src=\"https://secure.gravatar.com/avatar/" + com.user.gravatar_id + "?s=50\" />          <a class=\"username\" href=\"https://github.com/" + com.user.login + "\" >" + com.user.login + "</a>        </div>        <div class=\"content\">          <div class=\"body\" >" + marked(com.body) + "</div>        </div>      </li>  ");
+    return $(".petal .comments ul").append("      <li>        <div class=\"user\">          <img src=\"https://secure.gravatar.com/avatar/" + com.user.gravatar_id + "?s=50\" />          <a class=\"username\" href=\"https://github.com/" + com.user.login + "\" >" + com.user.login + "</a>        </div>        <div class=\"content\">          <div class=\"body\" >" + render_body(com.body) + "</div>        </div>      </li>  ");
   };
 
   load_comments = function() {
