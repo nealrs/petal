@@ -1,6 +1,6 @@
 .petal{margin:0;padding:0;font-size:14px;font-weight:normal;color:#333;line-height:18px;}.petal .footer{color:#777;text-align:center;}.petal .footer a{color:#333;}
 .petal .footer a:visited{color:#333;}
-.petal .reply{padding:15px;}.petal .reply p.warning{display:none;margin:10px;padding:5px 10px;font-weight:bold;color:#900;background-color:#FFEAEA;border:1px solid #E2A0A0;}
+.petal .reply{padding:15px;}.petal .reply p.err{display:none;margin:10px;padding:5px 10px;font-weight:bold;color:#900;background-color:#FFEAEA;border:1px solid #E2A0A0;}
 .petal .reply p.note{font-size:10px;color:#777;}
 .petal .reply textarea{width:100%;min-height:200px;overflow:auto;border:1px solid #ccc;border-radius:1px;-webkit-border-radius:1px;-moz-border-radius:1px;box-shadow:0 1px 2px rgba(0, 0, 0, 0.2) inset;outline:none;}
 .petal .reply textarea:focus{outline:1px solid #5ca9e4;box-shadow:0 0 0 2px rgba(70, 161, 231, 0.3),0 1px 2px rgba(0, 0, 0, 0.2) inset;}

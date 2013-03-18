@@ -17,7 +17,7 @@ petal =
     this.api_url = api_base + this.repo + "/issues/" + this.issue_id + "/comments"
  
     $(".petal").append("<div class=\"comments\"></div><div class=\"reply\" ></div><div class=\"footer\"></div>")
-    token()  # check if callback! get petalcode parameter from url and set token
+    test_token()  # check if callback! get petalcode parameter from url and set token
     load_reply()
     load_footer()
     load_comments()
@@ -26,12 +26,8 @@ $.petal = petal
 
 load_footer = -> $(".petal .footer").html("By <a href=\"https://github.com/hit9/petal\">petal</a>")
 
-load_comments = -> $.getJSON(petal.api_url+"?callback=?",
-  (response)->
-    comments = response.data
-    $(".petal .comments").append("<ul></ul>")
-    for com in comments
-      $(".petal .comments ul").append("
+append_com = (com)->
+  $(".petal .comments ul").append("
       <li>
         <div class=\"user\">
           
@@ -42,14 +38,21 @@ load_comments = -> $.getJSON(petal.api_url+"?callback=?",
           <div class=\"body\"" + marked(com.body) + "</div>
         </div>
       </li>
-      ")
+  ")
+
+load_comments = -> $.getJSON(petal.api_url+"?callback=?",
+  (response)->
+    comments = response.data
+    $(".petal .comments").append("<ul></ul>")
+    for com in comments
+      append_com(com)
   )
 
 
 load_reply = -> 
   $(".petal .reply").append("
     <p class=\"note\">Require Github account.</p>
-    <p class=\"warning\"></p>
+    <p class=\"err\"></p>
     <textarea id=\"petal-textarea\"></textarea>
     <p class=\"note\" >Press Ctrl+Enter to post your comment.</p>
   ")
@@ -60,33 +63,48 @@ load_reply = ->
       if content
         post_reply(content)
       else
-        warning_show("Comment field was blank")
+        err("Comment field was blank")
   )
 
 
 post_reply = (content) ->
   storage = window.localStorage
-  if storage.getItem("petaltoken") == null
+  token = storage.getItem("petaltoken")
+  if token  == null
     return authorize()
+  $.ajax({
+    type: "post",
+    url: petal.api_url, 
+    dataType: "json",
+    data: JSON.stringify({'body': content}), 
+    headers:{
+      Authorization: "token " + token,
+      Accept: 'application/json'
+    },
+    success: (response, status, jqXHR)->
+      append_com(response)
+      # reset textarea
+      $("#petal-textarea").val("")
+    , 
+    error: ()->
+      err("Failed to post comment")
+  })
 
 
 authorize = ->
   authorize_url = "https://github.com/login/oauth/authorize"
-  _url = authorize_url + "?client_id="+client_id+"&redirect_uri="+proxy_url+"/?callback="+url()
+  _url = authorize_url + "?client_id="+client_id+"&scope=public_repo,user&redirect_uri="+proxy_url+"/?callback="+url()
   # redirect to github authorize
   window.location.replace(_url)
 
-token = ->
-  token_str = url("?petaltoken")
-  if token_str  # if there is parameter petaltoken
-    token_str = token_str.replace(/^\/|\/$/g, '') # replace those "/"
+test_token = ->
+  token = url("?petaltoken")
+  if token  # if there is parameter petaltoken
+    token = token.replace(/^\/|\/$/g, '') # replace those "/"
     storage = window.localStorage
-    storage.setItem("petaltoken", token_str) 
-    alert token_str
+    storage.setItem("petaltoken", token) 
 
-warning_show = (msg) ->
-  $(".warning").show()
-  $(".warning").text(msg)
-
-warning_hide = ->
-  $(".warning").hide()
+err = (msg)->
+  $(".petal .err").text(msg)
+  $(".petal .err").show()
+  $(".petal .err").delay(7000).fadeOut(300)
