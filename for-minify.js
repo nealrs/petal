@@ -3,7 +3,7 @@ var compressor = require('node-minify');
 // concatenate
 new compressor.minify({
   type: 'no-compress',
-  fileIn: ['build/petal.without.js-url.js', 'vendors/js-url.js'],
+  fileIn: ['build/petal.without.vendors.js', 'vendors/js-url.js', 'vendors/urldecode.js'],
   fileOut: 'build/petal.uncompress.js', 
   callback: function(err){
     if(err){

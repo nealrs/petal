@@ -1,7 +1,11 @@
 <script src="vendors/js-url.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" charset="utf-8">
+  function urldecode(str) {
+    return decodeURIComponent((str+'').replace(/\+/g, '%20'));
+  }
   var code = url("?code"); 
   var callback = url("?callback");
   if(callback)
+    callback = urldecode(callback);
     window.location.replace(callback + "?petalcode=" + code);
 </script>
