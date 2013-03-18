@@ -4,8 +4,8 @@ api_base = "https://api.github.com/repos/"
 
 # client_id from github app register
 client_id = "2ae54488ab61bc732407"
-client_secret = "eda3638c477fb923333caadbfeb20d6ba6da6385"
-
+# the callback from github app register
+proxy_url = "http://aqueous-refuge-6537.herokuapp.com/"
 marked = require "marked"
 
 petal =
@@ -66,36 +66,23 @@ load_reply = ->
 
 post_reply = (content) ->
   storage = window.localStorage
-  if storage.getItem("petal_token") == null
+  if storage.getItem("petaltoken") == null
     return authorize()
-  # TODO
-  # post stuff
+
 
 authorize = ->
   authorize_url = "https://github.com/login/oauth/authorize"
-  _url = authorize_url + "?client_id="+client_id+"&redirect_uri=http://hit9.org/petal/getcode.html?callback="+url()
+  _url = authorize_url + "?client_id="+client_id+"&redirect_uri="+proxy_url+"/?callback="+url()
   # redirect to github authorize
   window.location.replace(_url)
 
 token = ->
-  code = url("?petalcode")
-  if code  # if there is parameter petalcode
-    code = code.replace(/^\/|\/$/g, '') # replace those "/"
-    # post for token
-    $.ajax({
-      type: "POST", 
-      url: "https://github.com/login/oauth/access_token",
-      dataType: "json",
-      data: {code: code, client_id: client_id, client_secret: client_secret},
-      headers: { 
-        Accept : "application/json"
-      },
-      success: (response) ->
-        # store token
-        storage = window.localStorage
-        storage.setItem("petalToken", response.access_token) 
-    })
-
+  token_str = url("?petaltoken")
+  if token_str  # if there is parameter petaltoken
+    token_str = token_str.replace(/^\/|\/$/g, '') # replace those "/"
+    storage = window.localStorage
+    storage.setItem("petaltoken", token_str) 
+    alert token_str
 
 warning_show = (msg) ->
   $(".warning").show()

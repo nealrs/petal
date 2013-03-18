@@ -1,6 +1,6 @@
 ;(function(e,t,n,r){function i(r){if(!n[r]){if(!t[r]){if(e)return e(r);throw new Error("Cannot find module '"+r+"'")}var s=n[r]={exports:{}};t[r][0](function(e){var n=t[r][1][e];return i(n?n:e)},s,s.exports)}return n[r].exports}for(var s=0;s<r.length;s++)i(r[s]);return i})(typeof require!=="undefined"&&require,{1:[function(require,module,exports){
 (function() {
-  var $, api_base, authorize, client_id, client_secret, load_comments, load_footer, load_reply, marked, petal, post_reply, token, warning_hide, warning_show;
+  var $, api_base, authorize, client_id, load_comments, load_footer, load_reply, marked, petal, post_reply, proxy_url, token, warning_hide, warning_show;
 
   $ = jQuery;
 
@@ -10,7 +10,7 @@
 
   client_id = "2ae54488ab61bc732407";
 
-  client_secret = "eda3638c477fb923333caadbfeb20d6ba6da6385";
+  proxy_url = "http://aqueous-refuge-6537.herokuapp.com/";
 
   marked = require("marked");
 
@@ -67,7 +67,7 @@
   post_reply = function(content) {
     var storage;
     storage = window.localStorage;
-    if (storage.getItem("petal_token") === null) {
+    if (storage.getItem("petaltoken") === null) {
       return authorize();
     }
   };
@@ -75,33 +75,18 @@
   authorize = function() {
     var authorize_url, _url;
     authorize_url = "https://github.com/login/oauth/authorize";
-    _url = authorize_url + "?client_id=" + client_id + "&redirect_uri=http://hit9.org/petal/getcode.html?callback=" + url();
+    _url = authorize_url + "?client_id=" + client_id + "&redirect_uri=" + proxy_url + "/?callback=" + url();
     return window.location.replace(_url);
   };
 
   token = function() {
-    var code;
-    code = url("?petalcode");
-    if (code) {
-      code = code.replace(/^\/|\/$/g, '');
-      return $.ajax({
-        type: "POST",
-        url: "https://github.com/login/oauth/access_token",
-        dataType: "json",
-        data: {
-          code: code,
-          client_id: client_id,
-          client_secret: client_secret
-        },
-        headers: {
-          Accept: "application/json"
-        },
-        success: function(response) {
-          var storage;
-          storage = window.localStorage;
-          return storage.setItem("petalToken", response.access_token);
-        }
-      });
+    var storage, token_str;
+    token_str = url("?petaltoken");
+    if (token_str) {
+      token_str = token_str.replace(/^\/|\/$/g, '');
+      storage = window.localStorage;
+      storage.setItem("petaltoken", token_str);
+      return alert(token_str);
     }
   };
 
