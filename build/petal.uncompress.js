@@ -1,6 +1,6 @@
 ;(function(e,t,n,r){function i(r){if(!n[r]){if(!t[r]){if(e)return e(r);throw new Error("Cannot find module '"+r+"'")}var s=n[r]={exports:{}};t[r][0](function(e){var n=t[r][1][e];return i(n?n:e)},s,s.exports)}return n[r].exports}for(var s=0;s<r.length;s++)i(r[s]);return i})(typeof require!=="undefined"&&require,{1:[function(require,module,exports){
 (function() {
-  var $, api_base, append_com, authorize, client_id, err, load_comments, load_footer, load_reply, marked, petal, post_reply, proxy_url, test_token;
+  var $, api_base, append_com, authorize, client_id, err, load_comments, load_footer, load_reply, marked, petal, post_reply, proxy_url, test_token, test_un_reply;
 
   $ = jQuery;
 
@@ -25,6 +25,7 @@
       test_token();
       load_reply();
       load_footer();
+      test_un_reply();
       return load_comments();
     }
   };
@@ -73,6 +74,7 @@
     storage = window.localStorage;
     token = storage.getItem("petaltoken");
     if (token === null) {
+      storage.setItem("petal_un_reply", content);
       return authorize();
     }
     return $.ajax({
@@ -87,6 +89,11 @@
         Accept: 'application/json'
       },
       success: function(response, status, jqXHR) {
+        var un_reply;
+        un_reply = storage.getItem("petal_un_reply");
+        if (un_reply) {
+          storage.removeItem("petal_un_reply");
+        }
         append_com(response);
         return $("#petal-textarea").val("");
       },
@@ -101,6 +108,14 @@
     authorize_url = "https://github.com/login/oauth/authorize";
     _url = authorize_url + "?client_id=" + client_id + "&scope=public_repo,user&redirect_uri=" + proxy_url + "/?callback=" + url();
     return window.location.replace(_url);
+  };
+
+  test_un_reply = function() {
+    var un_reply;
+    un_reply = window.localStorage.getItem("petal_un_reply");
+    if (un_reply) {
+      return $("#petal-textarea").val(un_reply);
+    }
   };
 
   test_token = function() {

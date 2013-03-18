@@ -20,6 +20,7 @@ petal =
     test_token()  # check if callback! get petalcode parameter from url and set token
     load_reply()
     load_footer()
+    test_un_reply() # must after load reply
     load_comments()
 
 $.petal = petal
@@ -70,7 +71,9 @@ load_reply = ->
 post_reply = (content) ->
   storage = window.localStorage
   token = storage.getItem("petaltoken")
-  if token  == null
+  if token == null
+    # store user's unreply comment content
+    storage.setItem("petal_un_reply", content)
     return authorize()
   $.ajax({
     type: "post",
@@ -82,11 +85,18 @@ post_reply = (content) ->
       Accept: 'application/json'
     },
     success: (response, status, jqXHR)->
+      # clean un_reply if exists
+      un_reply = storage.getItem("petal_un_reply")
+      if un_reply
+        storage.removeItem("petal_un_reply")
+      # append to comments list
       append_com(response)
       # reset textarea
       $("#petal-textarea").val("")
     , 
     error: ()->
+      # TODO
+      # refresh token by github's status code
       err("Failed to post comment")
   })
 
@@ -96,6 +106,12 @@ authorize = ->
   _url = authorize_url + "?client_id="+client_id+"&scope=public_repo,user&redirect_uri="+proxy_url+"/?callback="+url()
   # redirect to github authorize
   window.location.replace(_url)
+
+# if un_reply exists, init the textarea with that value
+test_un_reply = ->
+  un_reply = window.localStorage.getItem("petal_un_reply")
+  if un_reply
+    $("#petal-textarea").val(un_reply)
 
 test_token = ->
   token = url("?petaltoken")
