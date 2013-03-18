@@ -1,12 +1,16 @@
 ;(function(e,t,n,r){function i(r){if(!n[r]){if(!t[r]){if(e)return e(r);throw new Error("Cannot find module '"+r+"'")}var s=n[r]={exports:{}};t[r][0](function(e){var n=t[r][1][e];return i(n?n:e)},s,s.exports)}return n[r].exports}for(var s=0;s<r.length;s++)i(r[s]);return i})(typeof require!=="undefined"&&require,{1:[function(require,module,exports){
 (function() {
-  var $, api_base, authorize, load_comments, load_footer, load_reply, marked, petal, post_reply, warning_hide, warning_show;
+  var $, api_base, authorize, client_id, client_secret, load_comments, load_footer, load_reply, marked, petal, post_reply, warning_hide, warning_show;
 
   $ = jQuery;
 
   $.support.cors = true;
 
   api_base = "https://api.github.com/repos/";
+
+  client_id = "2ae54488ab61bc732407";
+
+  client_secret = "eda3638c477fb923333caadbfeb20d6ba6da6385";
 
   marked = require("marked");
 
@@ -67,7 +71,12 @@
     }
   };
 
-  authorize = function() {};
+  authorize = function() {
+    var authorize_url, _url;
+    authorize_url = "https://github.com/login/oauth/authorize";
+    _url = authorize_url + "?client_id=" + client_id + "&redirect_uri=http://hit9.org/petal/getcode.html?callback=" + url();
+    return window.location.replace(_url);
+  };
 
   warning_show = function(msg) {
     $(".warning").show();

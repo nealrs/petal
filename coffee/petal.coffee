@@ -2,6 +2,10 @@ $ = jQuery
 $.support.cors = true
 api_base = "https://api.github.com/repos/"
 
+# client_id from github app register
+client_id = "2ae54488ab61bc732407"
+client_secret = "eda3638c477fb923333caadbfeb20d6ba6da6385"
+
 marked = require "marked"
 
 petal =
@@ -67,7 +71,11 @@ post_reply = (content) ->
   # post stuff
 
 authorize = ->
-  
+  authorize_url = "https://github.com/login/oauth/authorize"
+  _url = authorize_url + "?client_id="+client_id+"&redirect_uri=http://hit9.org/petal/getcode.html?callback="+url()
+  # redirect to github authorize
+  window.location.replace(_url)
+
 
 warning_show = (msg) ->
   $(".warning").show()
