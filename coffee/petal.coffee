@@ -56,7 +56,7 @@ load_comments = -> $.getJSON(petal.api_url+"?callback=?",
 
 load_reply = -> 
   $(".petal .reply").append("
-    <p class=\"note\">Require Github account.</p>
+    <p class=\"note\">* Require Github account.<a id=\"gfm-help\" href=\"http://github.github.com/github-flavored-markdown\">GitHub Flavored Markdown</a></p>
     <p class=\"err\"></p>
     <textarea id=\"petal-textarea\"></textarea>
     <p class=\"note\" >Press Ctrl+Enter to post your comment.</p>
@@ -70,7 +70,6 @@ load_reply = ->
       else
         err("Comment field was blank")
   )
-
 
 post_reply = (content) ->
   storage = window.localStorage
