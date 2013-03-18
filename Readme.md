@@ -6,18 +6,35 @@ Github issues powered system. Inspired by [sirbrad/comcom](https://github.com/si
 How to use
 ----------
 
+First, make new one issue special for petal. and then copy the codes below to your webpage.
+
+Rewrite the `"user/rep"` and `issue_id` to yours.
+
 ```html
+<!-- jquery required -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <!-- petal begin -->
 <link rel="stylesheet" href="http://hit9.org/petal/css/petal.min.css" type="text/css" />
 <script src="http://hit9.org/petal/build/petal.min.js" type="text/javascript" charset="utf-8"></script>
 <script>
     $(document).ready(function(){  // important!
-        $.petal.init(user/repo, issue_id) // $.petal.init(repo, issue_id)
+        $.petal.init("user/repo", issue_id) // $.petal.init(repo, issue_id)
     })
 </script>
 <div class="petal"></div>
 <!-- petal end -->
 ```
+
+FAQ & Common issues
+-------------------
+
+1. Make sure that your webpage's domain is allowed to cross domain
+
+2. Have you changed the `"user/repo"` and `issue_id` to yours?
+
+3. Already new an issue?
+
+4. petal works with jQuery.
 
 Developers
 ----------
