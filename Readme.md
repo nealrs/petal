@@ -1,14 +1,14 @@
 petal
------
+=====
 
 Github issues powered system. Inspired by [sirbrad/comcom](https://github.com/sirbrad/comcom)
 
 How to use
 ----------
 
-First, make new one issue special for petal. and then copy the codes below to your webpage.
+First, new an issue for petal use, and then copy the codes below to your webpage.
 
-Rewrite the `"user/rep"` and `issue_id` to yours.
+(rewrite the `"user/rep"` and `issue_id` to yours)
 
 ```html
 <!-- jquery required -->
