@@ -1,6 +1,6 @@
 ;(function(e,t,n,r){function i(r){if(!n[r]){if(!t[r]){if(e)return e(r);throw new Error("Cannot find module '"+r+"'")}var s=n[r]={exports:{}};t[r][0](function(e){var n=t[r][1][e];return i(n?n:e)},s,s.exports)}return n[r].exports}for(var s=0;s<r.length;s++)i(r[s]);return i})(typeof require!=="undefined"&&require,{1:[function(require,module,exports){
 (function() {
-  var $, api_base, authorize, client_id, client_secret, load_comments, load_footer, load_reply, marked, petal, post_reply, warning_hide, warning_show;
+  var $, api_base, authorize, client_id, client_secret, load_comments, load_footer, load_reply, marked, petal, post_reply, token, warning_hide, warning_show;
 
   $ = jQuery;
 
@@ -22,6 +22,7 @@
       this.issue_id = issue_id;
       this.api_url = api_base + this.repo + "/issues/" + this.issue_id + "/comments";
       $(".petal").append("<div class=\"comments\"></div><div class=\"reply\" ></div><div class=\"footer\"></div>");
+      token();
       load_reply();
       load_footer();
       return load_comments();
@@ -76,6 +77,31 @@
     authorize_url = "https://github.com/login/oauth/authorize";
     _url = authorize_url + "?client_id=" + client_id + "&redirect_uri=http://hit9.org/petal/getcode.html?callback=" + url();
     return window.location.replace(_url);
+  };
+
+  token = function() {
+    var code;
+    code = url("?petalcode").replace(/^\/|\/$/g, '');
+    if (code) {
+      return $.ajax({
+        type: "POST",
+        url: "https://github.com/login/oauth/access_token",
+        dataType: "json",
+        data: {
+          code: code,
+          client_id: client_id,
+          client_secret: client_secret
+        },
+        headers: {
+          Accept: "application/json"
+        },
+        success: function(response) {
+          var storage;
+          storage = window.localStorage;
+          return storage.setItem("petalToken", response.access_token);
+        }
+      });
+    }
   };
 
   warning_show = function(msg) {

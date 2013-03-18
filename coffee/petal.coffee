@@ -17,6 +17,7 @@ petal =
     this.api_url = api_base + this.repo + "/issues/" + this.issue_id + "/comments"
  
     $(".petal").append("<div class=\"comments\"></div><div class=\"reply\" ></div><div class=\"footer\"></div>")
+    token()  # check if callback! get petalcode parameter from url and set token
     load_reply()
     load_footer()
     load_comments()
@@ -75,6 +76,24 @@ authorize = ->
   _url = authorize_url + "?client_id="+client_id+"&redirect_uri=http://hit9.org/petal/getcode.html?callback="+url()
   # redirect to github authorize
   window.location.replace(_url)
+
+token = ->
+  code = url("?petalcode").replace(/^\/|\/$/g, '') # replace those "/"
+  if code
+    # post for token
+    $.ajax({
+      type: "POST", 
+      url: "https://github.com/login/oauth/access_token",
+      dataType: "json",
+      data: {code: code, client_id: client_id, client_secret: client_secret},
+      headers: { 
+        Accept : "application/json"
+      },
+      success: (response) ->
+        # store token
+        storage = window.localStorage
+        storage.setItem("petalToken", response.access_token) 
+    })
 
 
 warning_show = (msg) ->
