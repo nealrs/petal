@@ -12,7 +12,7 @@ How to use
 <script src="http://hit9.org/petal/build/petal.min.js" type="text/javascript" charset="utf-8"></script>
 <script>
     $(document).ready(function(){  // important!
-        $.petal.init("hit9/petal", 1) // $.petal.init(repo, issue_id)
+        $.petal.init(user/repo, issue_id) // $.petal.init(repo, issue_id)
     })
 </script>
 <div class="petal"></div>
