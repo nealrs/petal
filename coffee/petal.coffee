@@ -17,11 +17,11 @@ petal =
     this.api_url = api_base + this.repo + "/issues/" + this.issue_id + "/comments"
  
     $(".petal").append("<div class=\"comments\"></div><div class=\"reply\" ></div><div class=\"footer\"></div>")
-    test_token()  # check if callback! get petalcode parameter from url and set token
     load_reply()
     load_footer()
-    test_un_reply() # must after load reply
     load_comments()
+    test_token()  # check if callback! get petalcode parameter from url and set token
+    test_un_reply() # must after load reply
 
 $.petal = petal
 
@@ -94,10 +94,15 @@ post_reply = (content) ->
       # reset textarea
       $("#petal-textarea").val("")
     , 
-    error: ()->
-      # TODO
-      # refresh token by github's status code
-      err("Failed to post comment")
+    error: (jqXHR, error, errorThrown)->
+      # the token is out of date or not a right one
+      if jqXHR.status&&jqXHR.status==401
+        # store user's unreply comment content
+        storage.setItem("petal_un_reply", content)
+        # go to authorize again
+        authorize()
+      else
+          err("Something wrong")
   })
 
 
