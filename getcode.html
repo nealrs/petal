@@ -2,5 +2,6 @@
 <script type="text/javascript" charset="utf-8">
   var code = url("?code"); 
   var callback = url("?callback");
-  window.location.replace(callback + "?petalcode=" + code);
+  if(callback)
+    window.location.replace(callback + "?petalcode=" + code);
 </script>
