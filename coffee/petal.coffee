@@ -36,7 +36,7 @@ append_com = (com)->
           <a class=\"username\" href=\"https://github.com/"+com.user.login+"\" >"+com.user.login+"</a>
         </div>
         <div class=\"content\">
-          <div class=\"body\"" + marked(com.body) + "</div>
+          <div class=\"body\" >" + marked(com.body) + "</div>
         </div>
       </li>
   ")
@@ -111,7 +111,7 @@ authorize = ->
 test_un_reply = ->
   un_reply = window.localStorage.getItem("petal_un_reply")
   if un_reply
-    $("#petal-textarea").val(un_reply)
+    post_reply(un_reply)
 
 test_token = ->
   token = url("?petaltoken")
@@ -124,3 +124,7 @@ err = (msg)->
   $(".petal .err").text(msg)
   $(".petal .err").show()
   $(".petal .err").delay(7000).fadeOut(300)
+#
+#warning = (msg)->
+#  $(".petal .er").css("background-color","#fcf085")
+#  err(msg)
