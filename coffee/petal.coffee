@@ -36,10 +36,11 @@ append_com = (com)->
       <li>
         <div class=\"user\">
           <img src=\"https://secure.gravatar.com/avatar/" + com.user.gravatar_id + "?s=50\" />
-          <a class=\"username\" href=\"https://github.com/"+com.user.login+"\" >"+com.user.login+"</a>
+          <a class=\"username\" href=\"https://github.com/" + com.user.login + "\" >" + com.user.login + "</a>
         </div>
         <div class=\"content\">
           <div class=\"body\" >" + render_body(com.body) + "</div>
+          <p class=\"date\">" + com.updated_at.slice(0,10) + "</p>
         </div>
       </li>
   ")
