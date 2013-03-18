@@ -67,8 +67,7 @@ post_reply = (content) ->
   # post stuff
 
 authorize = ->
-  # TODO
-  # authorize stuff
+  
 
 warning_show = (msg) ->
   $(".warning").show()
