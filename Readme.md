@@ -25,6 +25,15 @@ First, new an issue for petal use, and then copy the codes below to your webpage
 <!-- petal end -->
 ```
 
+For github pages users
+----------------------
+
+You need to  [register an application on github](https://github.com/settings/applications/new), and write your domain `username.github.com` in the field `Main URL` and `Callback URL`.
+
+![](screen-shot.png)
+
+**This is for cross-domain-usage.**
+
 FAQ & Common issues
 -------------------
 
