@@ -8,4 +8,5 @@
 .petal a:visited{color:#4183c4;}
 .petal .comments ul{display:block;margin:0;padding:0;border-top:1px solid #ddd;list-style:none;}.petal .comments ul li{list-style:none;border-bottom:1px solid #ddd;padding:15px;padding-bottom:5px;display:list-item;overflow:auto;}.petal .comments ul li .user{width:70px;float:left;}.petal .comments ul li .user img{display:block;border-radius:4px;-webkit-border-radius:4px;-moz-border-radius:4px;}
 .petal .comments ul li .user a{display:block;margin-top:6px;width:50px;text-align:center;}
+.petal .comments ul li .content p code{margin:0 2px;padding:0px 5px;border:1px solid #eaeaea;background-color:#f8f8f8;border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;}
 .petal .comments ul li .content pre{background-color:#f8f8f8;border:1px solid #ccc;font-family:'Consolas','Menlo','Deja Vu Sans Mono','Bitstream Vera Sans Mono',monospace !important;font-size:12px;overflow:auto;padding:6px 10px;border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;}
