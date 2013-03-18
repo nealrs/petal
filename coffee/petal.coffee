@@ -78,8 +78,9 @@ authorize = ->
   window.location.replace(_url)
 
 token = ->
-  code = url("?petalcode").replace(/^\/|\/$/g, '') # replace those "/"
-  if code
+  code = url("?petalcode")
+  if code  # if there is parameter petalcode
+    code = code.replace(/^\/|\/$/g, '') # replace those "/"
     # post for token
     $.ajax({
       type: "POST", 
