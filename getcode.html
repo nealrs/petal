@@ -1,6 +1,6 @@
 <script src="vendors/js-url.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" charset="utf-8">
   var code = url("?code"); 
-  var callback = url("?callback"); 
-  window.location = callback + "?petalcode=" + code;
+  var callback = url("?callback");
+  window.location.replace(callback + "?petalcode=" + code);
 </script>
