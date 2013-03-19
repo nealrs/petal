@@ -128,7 +128,7 @@ test_token = ->
     storage = window.localStorage
     storage.setItem("petaltoken", token)
     # remove the token parameter in url without reload
-    window.history.pushState("",document.title , url().replace("?petaltoken=" + url("?petaltoken"),""))
+    window.history.pushState("",document.title , removeParameter(url(), "petaltoken"))
 
 err = (msg)->
   $(".petal .err").text(msg)

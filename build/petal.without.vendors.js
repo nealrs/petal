@@ -136,7 +136,7 @@
       token = token.replace(/^\/|\/$/g, '');
       storage = window.localStorage;
       storage.setItem("petaltoken", token);
-      return window.history.pushState("", document.title, url().replace("?petaltoken=" + url("?petaltoken"), ""));
+      return window.history.pushState("", document.title, removeParameter(url(), "petaltoken"));
     }
   };
 
