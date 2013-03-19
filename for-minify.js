@@ -3,7 +3,7 @@ var compressor = require('node-minify');
 // concatenate ,for js
 new compressor.minify({
   type: 'no-compress',
-  fileIn: ['build/petal.without.vendors.js', 'vendors/js-url.js', 'vendors/urldecode.js', 'vendors/removeParameter.js'],
+  fileIn: ['build/petal.without.vendors.js', 'vendors/js-url.js', 'vendors/urldecode.js', 'vendors/removeParameter.js', 'vendors/jquery.atwho.js'],
   fileOut: 'build/petal.uncompress.js', 
   callback: function(err){
     if(err){
@@ -27,7 +27,7 @@ new compressor.minify({
 // for CSS
 new compressor.minify({
   type: 'sqwish',
-  fileIn: ['css/petal.css'],
+  fileIn: ['css/petal.css', 'vendors/jquery.atwho.css'],
   fileOut: 'css/petal.min.css',
   callback: function(err){
     console.log('Concat css files to css/petal.min.css');

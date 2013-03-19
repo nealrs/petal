@@ -6,7 +6,34 @@ api_base = "https://api.github.com/repos/"
 client_id = "2ae54488ab61bc732407"
 # the callback from github app register, without /
 proxy_url = "http://petal.ap01.aws.af.cm"
+
 marked = require "marked"
+
+# for @ at.js
+users = []
+emojis = [
+    "smile", "iphone", "girl", "smiley", "heart", "kiss", "copyright", "coffee",
+    "a", "ab", "airplane", "alien", "ambulance", "angel", "anger", "angry",
+    "arrow_forward", "arrow_left", "arrow_lower_left", "arrow_lower_right",
+    "arrow_right", "arrow_up", "arrow_upper_left", "arrow_upper_right",
+    "art", "astonished", "atm", "b", "baby", "baby_chick", "baby_symbol",
+    "balloon", "bamboo", "bank", "barber", "baseball", "basketball", "bath",
+    "bear", "beer", "beers", "beginner", "bell", "bento", "bike", "bikini",
+    "bird", "birthday", "black_square", "blue_car", "blue_heart", "blush",
+    "boar", "boat", "bomb", "book", "boot", "bouquet", "bow", "bowtie",
+    "boy", "bread", "briefcase", "broken_heart", "bug", "bulb",
+    "person_with_blond_hair", "phone", "pig", "pill", "pisces", "plus1",
+    "point_down", "point_left", "point_right", "point_up", "point_up_2",
+    "police_car", "poop", "post_office", "postbox", "pray", "princess",
+    "punch", "purple_heart", "question", "rabbit", "racehorse", "radio",
+    "up", "us", "v", "vhs", "vibration_mode", "virgo", "vs", "walking",
+    "warning", "watermelon", "wave", "wc", "wedding", "whale", "wheelchair",
+    "white_square", "wind_chime", "wink", "wink2", "wolf", "woman",
+    "womans_hat", "womens", "x", "yellow_heart", "zap", "zzz", "+1",
+    "-1", "0", "1", "109", "2", "3", "4", "5", "6", "7", "8", "8ball", "9"
+]
+
+emojis = $.map(emojis, (value, i)-> {key: value + ":", name:value}  )
 
 petal =
   repo: "user/repo"
@@ -17,11 +44,8 @@ petal =
     this.api_url = api_base + this.repo + "/issues/" + this.issue_id + "/comments"
  
     $(".petal").append("<div class=\"comments\"></div><div class=\"reply\" ></div><div class=\"footer\"></div>")
-    load_reply()
-    load_footer()
+    # load comments
     load_comments()
-    test_token()  # check if callback! get petalcode parameter from url and set token
-    test_un_reply() # must after load reply
 
 $.petal = petal
 
@@ -29,7 +53,7 @@ load_footer = -> $(".petal .footer").html("By <a href=\"https://github.com/hit9/
 
 render_body = (com_body)->
   str = marked(com_body)
-  return str.replace(/\B@([\w-]+) /gm, "<a href=\"https://github.com/$1\" target=\"_blank\">@$1 </a>")
+  return str.replace(/\B@([\w-]+)/gm, "<a href=\"https://github.com/$1\" target=\"_blank\">@$1</a>")
 
 append_com = (com)->
   $(".petal .comments ul").append("
@@ -44,6 +68,9 @@ append_com = (com)->
         </div>
       </li>
   ")
+  # append to users
+  users.push com.user.login
+  users = $.unique(users)
 
 load_comments = -> $.getJSON(petal.api_url+"?callback=?",
   (response)->
@@ -51,8 +78,13 @@ load_comments = -> $.getJSON(petal.api_url+"?callback=?",
     $(".petal .comments").append("<ul></ul>")
     for com in comments
       append_com(com)
+    # load the reply textarea div
+    load_reply()
+    # load footer copyright
+    load_footer()
+    # check if callback! get petalcode parameter from url and set token
+    test_token()
   )
-
 
 load_reply = -> 
   $(".petal .reply").append("
@@ -61,6 +93,8 @@ load_reply = ->
     <textarea id=\"petal-textarea\"></textarea>
     <p class=\"note\" >Press Ctrl+Enter to post your comment.</p>
   ")
+  # check if un reply content exists.must after load reply
+  test_un_reply()
   # listen to Ctrl+Enter
   $("#petal-textarea").keydown((e)->
     if e.keyCode == 10 || e.keyCode == 13 && e.ctrlKey
@@ -70,6 +104,11 @@ load_reply = ->
       else
         err("Comment field was blank")
   )
+  # listen to @
+  $("#petal-textarea").atwho("@", {data: users}).atwho(':', {
+        data: emojis ,
+        tpl:"<li data-value='${key}'>${name} <img src='http://a248.e.akamai.net/assets.github.com/images/icons/emoji/${name}.png'  height='20' width='20' /></li>"
+    })
 
 post_reply = (content) ->
   storage = window.localStorage
@@ -105,7 +144,7 @@ post_reply = (content) ->
         # go to authorize again
         authorize()
       else
-          err("Something wrong")
+          err("Something wrong.")
   })
 
 
@@ -134,7 +173,3 @@ err = (msg)->
   $(".petal .err").text(msg)
   $(".petal .err").show()
   $(".petal .err").delay(7000).fadeOut(300)
-#
-#warning = (msg)->
-#  $(".petal .er").css("background-color","#fcf085")
-#  err(msg)

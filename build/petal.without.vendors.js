@@ -1,6 +1,6 @@
 ;(function(e,t,n,r){function i(r){if(!n[r]){if(!t[r]){if(e)return e(r);throw new Error("Cannot find module '"+r+"'")}var s=n[r]={exports:{}};t[r][0](function(e){var n=t[r][1][e];return i(n?n:e)},s,s.exports)}return n[r].exports}for(var s=0;s<r.length;s++)i(r[s]);return i})(typeof require!=="undefined"&&require,{1:[function(require,module,exports){
 (function() {
-  var $, api_base, append_com, authorize, client_id, err, load_comments, load_footer, load_reply, marked, petal, post_reply, proxy_url, render_body, test_token, test_un_reply;
+  var $, api_base, append_com, authorize, client_id, emojis, err, load_comments, load_footer, load_reply, marked, petal, post_reply, proxy_url, render_body, test_token, test_un_reply, users;
 
   $ = jQuery;
 
@@ -14,6 +14,17 @@
 
   marked = require("marked");
 
+  users = [];
+
+  emojis = ["smile", "iphone", "girl", "smiley", "heart", "kiss", "copyright", "coffee", "a", "ab", "airplane", "alien", "ambulance", "angel", "anger", "angry", "arrow_forward", "arrow_left", "arrow_lower_left", "arrow_lower_right", "arrow_right", "arrow_up", "arrow_upper_left", "arrow_upper_right", "art", "astonished", "atm", "b", "baby", "baby_chick", "baby_symbol", "balloon", "bamboo", "bank", "barber", "baseball", "basketball", "bath", "bear", "beer", "beers", "beginner", "bell", "bento", "bike", "bikini", "bird", "birthday", "black_square", "blue_car", "blue_heart", "blush", "boar", "boat", "bomb", "book", "boot", "bouquet", "bow", "bowtie", "boy", "bread", "briefcase", "broken_heart", "bug", "bulb", "person_with_blond_hair", "phone", "pig", "pill", "pisces", "plus1", "point_down", "point_left", "point_right", "point_up", "point_up_2", "police_car", "poop", "post_office", "postbox", "pray", "princess", "punch", "purple_heart", "question", "rabbit", "racehorse", "radio", "up", "us", "v", "vhs", "vibration_mode", "virgo", "vs", "walking", "warning", "watermelon", "wave", "wc", "wedding", "whale", "wheelchair", "white_square", "wind_chime", "wink", "wink2", "wolf", "woman", "womans_hat", "womens", "x", "yellow_heart", "zap", "zzz", "+1", "-1", "0", "1", "109", "2", "3", "4", "5", "6", "7", "8", "8ball", "9"];
+
+  emojis = $.map(emojis, function(value, i) {
+    return {
+      key: value + ":",
+      name: value
+    };
+  });
+
   petal = {
     repo: "user/repo",
     issue_id: 1,
@@ -22,11 +33,7 @@
       this.issue_id = issue_id;
       this.api_url = api_base + this.repo + "/issues/" + this.issue_id + "/comments";
       $(".petal").append("<div class=\"comments\"></div><div class=\"reply\" ></div><div class=\"footer\"></div>");
-      load_reply();
-      load_footer();
-      load_comments();
-      test_token();
-      return test_un_reply();
+      return load_comments();
     }
   };
 
@@ -39,30 +46,34 @@
   render_body = function(com_body) {
     var str;
     str = marked(com_body);
-    return str.replace(/\B@([\w-]+) /gm, "<a href=\"https://github.com/$1\" target=\"_blank\">@$1 </a>");
+    return str.replace(/\B@([\w-]+)/gm, "<a href=\"https://github.com/$1\" target=\"_blank\">@$1</a>");
   };
 
   append_com = function(com) {
-    return $(".petal .comments ul").append("      <li>        <div class=\"user\">          <img src=\"https://secure.gravatar.com/avatar/" + com.user.gravatar_id + "?s=50\" />          <a class=\"username\" href=\"https://github.com/" + com.user.login + "\" >" + com.user.login + "</a>        </div>        <div class=\"content\">          <div class=\"body\" >" + render_body(com.body) + "</div>          <p class=\"date\">" + com.updated_at.slice(0, 10) + "</p>        </div>      </li>  ");
+    $(".petal .comments ul").append("      <li>        <div class=\"user\">          <img src=\"https://secure.gravatar.com/avatar/" + com.user.gravatar_id + "?s=50\" />          <a class=\"username\" href=\"https://github.com/" + com.user.login + "\" >" + com.user.login + "</a>        </div>        <div class=\"content\">          <div class=\"body\" >" + render_body(com.body) + "</div>          <p class=\"date\">" + com.updated_at.slice(0, 10) + "</p>        </div>      </li>  ");
+    users.push(com.user.login);
+    return users = $.unique(users);
   };
 
   load_comments = function() {
     return $.getJSON(petal.api_url + "?callback=?", function(response) {
-      var com, comments, _i, _len, _results;
+      var com, comments, _i, _len;
       comments = response.data;
       $(".petal .comments").append("<ul></ul>");
-      _results = [];
       for (_i = 0, _len = comments.length; _i < _len; _i++) {
         com = comments[_i];
-        _results.push(append_com(com));
+        append_com(com);
       }
-      return _results;
+      load_reply();
+      load_footer();
+      return test_token();
     });
   };
 
   load_reply = function() {
     $(".petal .reply").append("    <p class=\"note\">* Require Github account.<a id=\"gfm-help\" href=\"http://github.github.com/github-flavored-markdown\">GitHub Flavored Markdown</a></p>    <p class=\"err\"></p>    <textarea id=\"petal-textarea\"></textarea>    <p class=\"note\" >Press Ctrl+Enter to post your comment.</p>  ");
-    return $("#petal-textarea").keydown(function(e) {
+    test_un_reply();
+    $("#petal-textarea").keydown(function(e) {
       var content;
       if (e.keyCode === 10 || e.keyCode === 13 && e.ctrlKey) {
         content = $("#petal-textarea").val();
@@ -72,6 +83,12 @@
           return err("Comment field was blank");
         }
       }
+    });
+    return $("#petal-textarea").atwho("@", {
+      data: users
+    }).atwho(':', {
+      data: emojis,
+      tpl: "<li data-value='${key}'>${name} <img src='http://a248.e.akamai.net/assets.github.com/images/icons/emoji/${name}.png'  height='20' width='20' /></li>"
     });
   };
 
@@ -108,7 +125,7 @@
           storage.setItem("petal_un_reply", content);
           return authorize();
         } else {
-          return err("Something wrong");
+          return err("Something wrong.");
         }
       }
     });
