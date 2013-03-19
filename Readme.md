@@ -70,11 +70,12 @@ Where the proxy script(which post to github for access_token) is ?
 And the script:
 
 ```python
-from flask  import Flask, redirect, request
+from flask  import Flask, redirect, request, url_for
 import requests
+import urllib
+import urlparse
 
 application = app = Flask(__name__)
-
 
 @app.route("/")
 def index():
@@ -93,9 +94,17 @@ def index():
     token_url = "https://github.com/login/oauth/access_token"
     re = requests.post(token_url, data=data, headers=headers)
     token = re.json()['access_token']
-    return redirect(callback+"?petaltoken="+token)
+
+    # update callback with parameter:petaltoken
+    params = {"petaltoken": token}
+    url_parts = list(urlparse.urlparse(callback))
+    query = dict(urlparse.parse_qsl(url_parts[4]))
+    query.update(params)
+    url_parts[4] = urllib.urlencode(query)
+    redirect_url = urlparse.urlunparse(url_parts)
+
+    return redirect(redirect_url)
 
 if __name__ == '__main__':
-    app.run()
-
+    app.run(debug=True)
 ```
