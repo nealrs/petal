@@ -126,7 +126,9 @@ test_token = ->
   if token  # if there is parameter petaltoken
     token = token.replace(/^\/|\/$/g, '') # replace those "/"
     storage = window.localStorage
-    storage.setItem("petaltoken", token) 
+    storage.setItem("petaltoken", token)
+    # remove the token parameter in url without reload
+    window.history.pushState("",document.title , url().replace("?petaltoken=" + url("?petaltoken"),""))
 
 err = (msg)->
   $(".petal .err").text(msg)
