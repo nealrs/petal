@@ -65,7 +65,7 @@ To build:
 
 Where the proxy script(which post to github for access_token) is ?
 
-    http://aqueous-refuge-6537.herokuapp.com/
+    http://petal.ap01.aws.af.cm
 
 And the script:
 
@@ -73,7 +73,7 @@ And the script:
 from flask  import Flask, redirect, request
 import requests
 
-app = Flask(__name__)
+application = app = Flask(__name__)
 
 
 @app.route("/")
@@ -94,4 +94,8 @@ def index():
     re = requests.post(token_url, data=data, headers=headers)
     token = re.json()['access_token']
     return redirect(callback+"?petaltoken="+token)
+
+if __name__ == '__main__':
+    app.run()
+
 ```

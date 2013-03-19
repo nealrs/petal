@@ -10,7 +10,7 @@
 
   client_id = "2ae54488ab61bc732407";
 
-  proxy_url = "http://aqueous-refuge-6537.herokuapp.com/";
+  proxy_url = "http://petal.ap01.aws.af.cm";
 
   marked = require("marked");
 

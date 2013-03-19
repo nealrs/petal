@@ -4,8 +4,8 @@ api_base = "https://api.github.com/repos/"
 
 # client_id from github app register
 client_id = "2ae54488ab61bc732407"
-# the callback from github app register
-proxy_url = "http://aqueous-refuge-6537.herokuapp.com/"
+# the callback from github app register, without /
+proxy_url = "http://petal.ap01.aws.af.cm"
 marked = require "marked"
 
 petal =
