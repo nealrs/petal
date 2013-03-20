@@ -1,7 +1,7 @@
 petal
 =====
 
-Github issues powered system. Inspired by [sirbrad/comcom](https://github.com/sirbrad/comcom)
+Github issues powered comments. Inspired by [sirbrad/comcom](https://github.com/sirbrad/comcom)
 
 How to use
 ----------
