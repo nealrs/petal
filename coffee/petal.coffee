@@ -1,5 +1,7 @@
 $ = jQuery
+
 $.support.cors = true
+
 api_base = "https://api.github.com/repos/"
 
 # client_id from github app register
@@ -19,57 +21,58 @@ petal =
     this.repo = repo
     this.issue_id = issue_id
     this.api_url = api_base + this.repo + "/issues/" + this.issue_id + "/comments"
- 
-    $(".petal").append("<div class=\"comments\"></div><div class=\"reply\" ></div><div class=\"footer\"></div>")
-    # load comments
-    load_comments()
+    # sperate the petal div
+    $(".petal").append('<div class="comments"></div><div class="reply" ></div><div class="footer"></div>')
+
+    load()
 
 $.petal = petal
 
-load_footer = -> $(".petal .footer").html("By <a href=\"https://github.com/hit9/petal\">petal</a>")
-
+# render markdown body to html
 render_body = (com_body)->
   str = marked(com_body)
-  return str.replace(/\B@([\w-]+)/gm, "<a href=\"https://github.com/$1\" target=\"_blank\">@$1</a>")
+  return str.replace(/\B@([\w-]+)/gm, '<a href="https://github.com/$1" target="_blank">@$1</a>')
 
+# append comment object to ul
 append_com = (com)->
-  $(".petal .comments ul").append("
+  $(".petal .comments ul").append('
       <li>
-        <div class=\"user\">
-          <img src=\"https://secure.gravatar.com/avatar/" + com.user.gravatar_id + "?s=50\" />
-          <a class=\"username\" href=\"https://github.com/" + com.user.login + "\" >" + com.user.login + "</a>
+        <div class="user">
+          <img src="https://secure.gravatar.com/avatar/' + com.user.gravatar_id + '?s=50" />
+          <a class="username" href="https://github.com/' + com.user.login + '" >' + com.user.login + '</a>
         </div>
-        <div class=\"content\">
-          <div class=\"body\" >" + render_body(com.body) + "</div>
-          <p class=\"date\">" + com.updated_at.slice(0,10) + "</p>
+        <div class="content">
+          <div class="body" >' + render_body(com.body) + '</div>
+          <p class="date">' + com.updated_at.slice(0,10) + '</p>
         </div>
       </li>
-  ")
-  # append to users
+  ')
+  # append to users array
   users.push com.user.login
   users = $.unique(users)
 
-load_comments = -> $.getJSON(petal.api_url+"?callback=?",
+load = -> $.getJSON(petal.api_url+"?callback=?",
   (response)->
+    # load comments
     comments = response.data
     $(".petal .comments").append("<ul></ul>")
     for com in comments
       append_com(com)
     # load the reply textarea div
     load_reply()
-    # load footer copyright
-    load_footer()
-    # check if callback! get petalcode parameter from url and set token
-    test_token()
   )
 
 load_reply = -> 
-  $(".petal .reply").append("
-    <p class=\"note\">* Require Github account.<a id=\"gfm-help\" href=\"http://github.github.com/github-flavored-markdown\">GitHub Flavored Markdown</a></p>
-    <p class=\"err\"></p>
-    <textarea id=\"petal-textarea\"></textarea>
-    <p class=\"note\" >Press Ctrl+Enter to post your comment.</p>
-  ")
+  $(".petal .reply").append('
+    <p class="note">*Require Github account<a id="gfm-help" href="http://github.github.com/github-flavored-markdown">GitHub Flavored Markdown</a></p>
+    <p class="err"></p>
+    <textarea id="petal-textarea"></textarea>
+    <p class="note" >Press Ctrl+Enter to post your comment.</p>
+  ')
+  # load footer copyright
+  $(".petal .footer").html('By <a href="https://github.com/hit9/petal">petal</a>')
+  # check if callback! get petalcode parameter from url and set token
+  test_token()
   # check if un reply content exists.must after load reply
   test_un_reply()
   # listen to Ctrl+Enter
@@ -91,6 +94,7 @@ post_reply = (content) ->
     # store user's unreply comment content
     storage.setItem("petal_un_reply", content)
     return authorize()
+  # post comment content to github
   $.ajax({
     type: "post",
     url: petal.api_url, 
@@ -137,7 +141,7 @@ test_un_reply = ->
 test_token = ->
   token = url("?petaltoken")
   if token  # if there is parameter petaltoken
-    token = token.replace(/^\/|\/$/g, '') # replace those "/"
+    token = token.replace(/^\/|\/$/g, '') # replace those "/" with white space
     storage = window.localStorage
     storage.setItem("petaltoken", token)
     # remove the token parameter in url without reload
