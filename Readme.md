@@ -11,7 +11,7 @@ First, new an issue for petal use, and then copy the codes below to your webpage
 (rewrite the `"user/rep"` and `issue_id` to yours)
 
 ```html
-<!-- jquery required -->
+<!-- jquery 1.7+ required -->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <!-- petal begin -->
 <link rel="stylesheet" href="http://hit9.org/petal/css/petal.min.css" type="text/css" />
