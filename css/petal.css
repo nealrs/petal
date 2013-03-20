@@ -11,3 +11,4 @@
 .petal .comments ul li .content p.date{padding:0;text-align:right;font-size:13px;line-height:15px;color:#777;}
 .petal .comments ul li .content p code{margin:0 2px;padding:0px 5px;border:1px solid #eaeaea;background-color:#f8f8f8;border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;}
 .petal .comments ul li .content pre{background-color:#f8f8f8;border:1px solid #ccc;font-family:'Consolas','Menlo','Deja Vu Sans Mono','Bitstream Vera Sans Mono',monospace !important;font-size:12px;overflow:auto;padding:6px 10px;border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;}
+#at-view{font-size:10px !important;}#at-view .cur{background:#4183c4 !important;}

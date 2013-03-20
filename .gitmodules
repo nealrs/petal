@@ -1,3 +1,9 @@
 [submodule "lib/node_modules/marked"]
 	path = lib/node_modules/marked
 	url = git://github.com/chjj/marked.git
+[submodule "vendors/js-url"]
+	path = vendors/js-url
+	url = git://github.com/websanova/js-url.git
+[submodule "vendors/atwho.js"]
+	path = vendors/atwho.js
+	url = git://github.com/ichord/At.js.git
