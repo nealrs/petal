@@ -93,9 +93,6 @@ load_reply = ->
 
 post_reply = (content) ->
 
-  # add comment from url
-  content += "\n\n Comment from "+url()
-
   # test token and store the un reply content
   storage = window.localStorage
   token = storage.getItem("petaltoken")
@@ -103,6 +100,9 @@ post_reply = (content) ->
     # store user's unreply comment content
     storage.setItem("petal_un_reply", content)
     return authorize()
+
+  # add comment from url
+  content += "\n Comment from "+url()
 
   # post comment content to github
   $.ajax({
