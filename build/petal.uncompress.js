@@ -32,7 +32,8 @@
 
   render_body = function(com_body) {
     var str;
-    str = marked(com_body);
+    str = com_body.replace(/Comment from http[s]?:\/\/(.*)/, "");
+    str = marked(str);
     return str.replace(/\B@([\w-]+)/gm, '<a href="https://github.com/$1" target="_blank">@$1</a>');
   };
 
@@ -94,6 +95,7 @@
 
   post_reply = function(content) {
     var storage, token;
+    content += "\n\n Comment from " + url();
     storage = window.localStorage;
     token = storage.getItem("petaltoken");
     if (token === null) {

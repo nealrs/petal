@@ -30,7 +30,11 @@ $.petal = petal
 
 # render markdown body to html
 render_body = (com_body)->
-  str = marked(com_body)
+  # replace the "comment from url" with ""
+  str = com_body.replace(/Comment from http[s]?:\/\/(.*)/, "")
+  # markdown it!
+  str = marked(str)
+  # replace the @ and return
   return str.replace(/\B@([\w-]+)/gm, '<a href="https://github.com/$1" target="_blank">@$1</a>')
 
 # append comment object to ul
@@ -88,12 +92,18 @@ load_reply = ->
   $("#petal-textarea").atwho("@", {data: users})
 
 post_reply = (content) ->
+
+  # add comment from url
+  content += "\n\n Comment from "+url()
+
+  # test token and store the un reply content
   storage = window.localStorage
   token = storage.getItem("petaltoken")
   if token == null
     # store user's unreply comment content
     storage.setItem("petal_un_reply", content)
     return authorize()
+
   # post comment content to github
   $.ajax({
     type: "post",
