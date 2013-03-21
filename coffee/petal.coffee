@@ -102,7 +102,7 @@ post_reply = (content) ->
     return authorize()
 
   # add comment from url
-  content += "\n Comment from "+url()
+  content += "\n Comment from "+url().replace(/\?$/,"")
 
   # post comment content to github
   $.ajax({

@@ -101,7 +101,7 @@
       storage.setItem("petal_un_reply", content);
       return authorize();
     }
-    content += "\n Comment from " + url();
+    content += "\n Comment from " + url().replace(/\?$/, "");
     return $.ajax({
       type: "post",
       url: petal.api_url,
