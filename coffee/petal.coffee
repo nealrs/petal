@@ -68,13 +68,13 @@ load = -> $.getJSON(petal.api_url+"?callback=?",
 
 load_reply = -> 
   $(".petal .reply").append('
-    <p class="note">*Require Github account<a id="gfm-help" href="http://github.github.com/github-flavored-markdown">GitHub Flavored Markdown</a></p>
+    <p class="note">*Require Github account<a id="issue-src" href="https://github.com/'+petal.repo+'/issues/'+petal.issue_id+'">'+petal.repo+'/issues/'+petal.issue_id+'</a></p>
     <p class="err"></p>
     <textarea id="petal-textarea"></textarea>
-    <p class="note" >Press Ctrl+Enter to post your comment.</p>
+    <p class="note" >Press <a href="javascript:void(0);">Ctrl+Enter</a> to post your comment.(Comments are parsed with <a href="http://github.github.com/github-flavored-markdown">GitHub Flavored Markdown</a>)</p>
   ')
   # load footer copyright
-  $(".petal .footer").html('By <a href="https://github.com/hit9/petal">petal</a>')
+  $(".petal .footer").html('By <a href="https://github.com/hit9/petal/">petal</a>')
   # check if callback! get petalcode parameter from url and set token
   test_token()
   # check if un reply content exists.must after load reply
