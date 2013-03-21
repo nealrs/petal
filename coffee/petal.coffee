@@ -157,7 +157,7 @@ test_token = ->
     # remove the token parameter in url without reload
     window.history.pushState("",document.title ,
       # remove the slah after url and remove the ? after url
-      removeParameter(unescape(url()).replace(/\/$/, '').replace(/\?$/,""),"petaltoken")
+      removeParameter(unescape(url()).replace(/\/$/, ''),"petaltoken").replace(/\?$/,"")
     )
 
 err = (msg)->
