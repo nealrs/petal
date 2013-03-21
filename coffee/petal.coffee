@@ -31,7 +31,7 @@ $.petal = petal
 # render markdown body to html
 render_body = (com_body)->
   # replace the "comment from url" with ""
-  str = com_body.replace(/Comment from http[s]?:\/\/(.*)/, "")
+  str = com_body.replace(/\*Comment from http[s]?:\/\/(.*)\*$/, "")
   # markdown it!
   str = marked(str)
   # replace the @ and return
@@ -102,7 +102,7 @@ post_reply = (content) ->
     return authorize()
 
   # add comment from url
-  content += "\n Comment from "+url().replace(/\?$/,"")
+  content += "\n *Comment from "+url().replace(/\?$/,"")+"*"
 
   # post comment content to github
   $.ajax({
