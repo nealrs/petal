@@ -155,7 +155,7 @@
       token = token.replace(/^\/|\/$/g, '');
       storage = window.localStorage;
       storage.setItem("petaltoken", token);
-      return window.history.pushState("", document.title, removeParameter(url(), "petaltoken"));
+      return window.history.pushState("", document.title, removeParameter(unescape(url()).replace(/\/$/, ''), "petaltoken"));
     }
   };
 
@@ -1326,10 +1326,6 @@ window.url = (function() {
 		return '';
 	}
 })();
-
-function urldecode(str) {
-   return decodeURIComponent((str+'').replace(/\+/g, '%20'));
-}
 
 function removeParameter(url, parameter)
 {
