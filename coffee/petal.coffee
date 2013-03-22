@@ -142,10 +142,11 @@ authorize = ->
   # redirect to github authorize
   window.location.replace(_url)
 
-# if un_reply exists, init the textarea with that value
+# if un_reply exists, post the un reply message
 test_un_reply = ->
   un_reply = window.localStorage.getItem("petal_un_reply")
   if un_reply
+    window.location.hash="#petal-textarea"
     post_reply(un_reply)
 
 test_token = ->
