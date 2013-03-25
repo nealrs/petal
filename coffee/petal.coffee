@@ -40,7 +40,7 @@ render_body = (com_body)->
 # append comment object to ul
 append_com = (com)->
   $(".petal .comments ul").append('
-      <li>
+      <li id="petal-comment-' + com.id + '">
         <div class="user">
           <img src="https://secure.gravatar.com/avatar/' + com.user.gravatar_id + '?s=50" />
           <a class="username" href="https://github.com/' + com.user.login + '" >' + com.user.login + '</a>
@@ -102,7 +102,7 @@ post_reply = (content) ->
     return authorize()
 
   # add comment from url
-  content += "\n *Comment from "+url().replace(/\?$/,"")+"*"
+  content += "\n *Comment from "+ url().replace(/\?$/,"")+"*"
 
   # post comment content to github
   $.ajax({
