@@ -1,5 +1,5 @@
 petal
-=====
+======
 
 Github issues powered comments. Inspired by [sirbrad/comcom](https://github.com/sirbrad/comcom)
 
