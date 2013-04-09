@@ -48,27 +48,33 @@ FAQ & Common issues
 Developers
 ----------
 
-fork and install dependences(coffee, less and browserify):
+### Front end
 
-    sudo npm install -g coffee-script
-    sudo npm install -g browserify
-    sudo npm install -g less
+1. fork this repo
 
-And then update submodule
+2. install dependences(coffee, less and browserify):
 
-    git submodule --init update
+  ```
+  sudo npm install -g coffee-script
+  sudo npm install -g browserify
+  sudo npm install -g less
+  ```
 
-Install node_modules:
+3. And then update submodule
 
-    npm install
+  ```
+  git submodule --init update
+  ```
 
-To build:
+4. Install node_modules dependences:
 
-    make
+  ```
+  npm install
+  ```
 
-To clean:
+5. Use make to compile
 
-    make clean
+### Back end
 
 Where the proxy script(which post to github for access_token) is ?
 
