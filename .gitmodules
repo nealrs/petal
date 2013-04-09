@@ -1,5 +1,5 @@
 [submodule "lib/node_modules/marked"]
-	path = lib/node_modules/marked
+	path = vendors/node_modules/marked
 	url = git://github.com/chjj/marked.git
 [submodule "vendors/js-url"]
 	path = vendors/js-url
