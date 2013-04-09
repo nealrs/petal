@@ -3,8 +3,8 @@ var compressor = require('node-minify');
 // concatenate ,for js
 new compressor.minify({
   type: 'no-compress',
-  fileIn: ['build/petal.without.vendors.js', 'vendors/js-url/js-url.js', 'vendors/removeParameter.js', 'vendors/atwho.js/dist/js/jquery.atwho.js'],
-  fileOut: 'build/petal.uncompress.js', 
+  fileIn: ['trash/petal.without.vendors.js', 'vendors/js-url/js-url.js', 'vendors/removeParameter.js', 'vendors/atwho.js/dist/js/jquery.atwho.js'],
+  fileOut: 'trash/petal.uncompressed.js', 
   callback: function(err){
     if(err){
       console.log(err);
@@ -14,7 +14,7 @@ new compressor.minify({
 // minify js
 new compressor.minify({
   type: 'uglifyjs',
-  fileIn: 'build/petal.uncompress.js',
+  fileIn: 'trash/petal.uncompressed.js',
   fileOut: 'build/petal.min.js',
   callback: function(err){
     console.log('minify js files to build/petal.min.js')
@@ -27,7 +27,7 @@ new compressor.minify({
 // for CSS
 new compressor.minify({
   type: 'sqwish',
-  fileIn: ['css/petal.css', 'vendors/atwho.js/dist/css/jquery.atwho.css'],
+  fileIn: ['trash/petal.uncompressed.css', 'vendors/atwho.js/dist/css/jquery.atwho.css'],
   fileOut: 'css/petal.min.css',
   callback: function(err){
     console.log('Concat css files to css/petal.min.css');
