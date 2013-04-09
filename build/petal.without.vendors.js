@@ -525,7 +525,7 @@ Lexer.prototype.token = function(src, top) {
         type: this.options.sanitize
           ? 'paragraph'
           : 'html',
-        pre: cap[1] === 'pre',
+        pre: cap[1] === 'pre' || cap[1] === 'script',
         text: cap[0]
       });
       continue;
@@ -895,6 +895,19 @@ InlineLexer.prototype.outputLink = function(cap, link) {
 };
 
 /**
+ * Smartypants Transformations
+ */
+
+InlineLexer.prototype.smartypants = function(text) {
+  if (!this.options.smartypants) return text;
+  return text
+    .replace(/--/g, '—')
+    .replace(/'([^']*)'/g, '‘$1’')
+    .replace(/"([^"]*)"/g, '“$1”')
+    .replace(/\.{3}/g, '…');
+};
+
+/**
  * Mangle Links
  */
 
@@ -1180,7 +1193,49 @@ function merge(obj) {
  * Marked
  */
 
-function marked(src, opt) {
+function marked(src, opt, callback) {
+  if (callback || typeof opt === 'function') {
+    if (!callback) {
+      callback = opt;
+      opt = null;
+    }
+
+    if (opt) opt = merge({}, marked.defaults, opt);
+
+    var tokens = Lexer.lex(tokens, opt)
+      , highlight = opt.highlight
+      , pending = 0
+      , l = tokens.length
+      , i = 0;
+
+    if (!highlight || highlight.length < 3) {
+      return callback(null, Parser.parse(tokens, opt));
+    }
+
+    var done = function() {
+      delete opt.highlight;
+      var out = Parser.parse(tokens, opt);
+      opt.highlight = highlight;
+      return callback(null, out);
+    };
+
+    for (; i < l; i++) {
+      (function(token) {
+        if (token.type !== 'code') return;
+        pending++;
+        return highlight(token.text, token.lang, function(err, code) {
+          if (code == null || code === token.text) {
+            return --pending || done();
+          }
+          token.text = code;
+          token.escaped = true;
+          --pending || done();
+        });
+      })(tokens[i]);
+    }
+
+    return;
+  }
   try {
     if (opt) opt = merge({}, marked.defaults, opt);
     return Parser.parse(Lexer.lex(src, opt), opt);
