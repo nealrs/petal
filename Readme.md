@@ -53,15 +53,22 @@ fork and install dependences(coffee, less and browserify):
     sudo npm install -g coffee-script
     sudo npm install -g browserify
     sudo npm install -g less
-    sudo npm install node-minify
 
 And then update submodule
 
     git submodule --init update
 
+Install node_modules:
+
+    npm install
+
 To build:
 
     make
+
+To clean:
+
+    make clean
 
 Where the proxy script(which post to github for access_token) is ?
 
