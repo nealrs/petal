@@ -52,12 +52,12 @@ Developers
 
 1. fork this repo
 
-2. install dependences(coffee, less and browserify):
+2. install dependences(coffee, sass and browserify):
 
   ```
   sudo npm install -g coffee-script
   sudo npm install -g browserify
-  sudo npm install -g less
+  gem install sass
   ```
 
 3. And then update submodule
