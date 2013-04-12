@@ -58,7 +58,7 @@ Developers
 
 1. fork this repo
 
-2. install dependences(coffee, sass and node-minify):
+2. install dependences(coffee, sass and node-minify, java runtime):
 
   ```
   sudo npm install -g coffee-script

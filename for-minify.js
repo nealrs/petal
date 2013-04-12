@@ -13,7 +13,7 @@ new compressor.minify({
 });
 // minify js
 new compressor.minify({
-  type: 'uglifyjs',
+  type: 'yui-js',
   fileIn: 'trash/petal.uncompressed.js',
   fileOut: 'build/petal.min.js',
   callback: function(err){
@@ -26,7 +26,7 @@ new compressor.minify({
 
 // for CSS
 new compressor.minify({
-  type: 'sqwish',
+  type: 'yui-css',
   fileIn: ['trash/petal.uncompressed.css', 'vendors/atwho.js/dist/css/jquery.atwho.css'],
   fileOut: 'css/petal.min.css',
   callback: function(err){
