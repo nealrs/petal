@@ -52,11 +52,11 @@ Developers
 
 1. fork this repo
 
-2. install dependences(coffee, sass and browserify):
+2. install dependences(coffee, sass and node-minify):
 
   ```
   sudo npm install -g coffee-script
-  sudo npm install -g browserify
+  npm install node-minify
   gem install sass
   ```
 
@@ -66,13 +66,7 @@ Developers
   git submodule --init update
   ```
 
-4. Install node_modules dependences:
-
-  ```
-  npm install
-  ```
-
-5. Use make to compile
+4. Use make to compile
 
 ### Back end
 

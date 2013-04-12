@@ -3,7 +3,7 @@ var compressor = require('node-minify');
 // concatenate ,for js
 new compressor.minify({
   type: 'no-compress',
-  fileIn: ['trash/petal.without.vendors.js', 'vendors/js-url/js-url.js', 'vendors/removeParameter.js', 'vendors/atwho.js/dist/js/jquery.atwho.js'],
+  fileIn: ['vendors/marked/lib/marked.js', 'vendors/js-url/js-url.js', 'vendors/removeParameter.js', 'vendors/atwho.js/dist/js/jquery.atwho.js', 'trash/petal.js'],
   fileOut: 'trash/petal.uncompressed.js', 
   callback: function(err){
     if(err){

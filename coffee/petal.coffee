@@ -2,9 +2,6 @@ $ = jQuery
 
 $.support.cors = true
 
-# markdown parser
-marked = require "marked"
-
 repo_api = 'https://api.github.com/repos/'
 
 # client_id from github
@@ -103,25 +100,25 @@ load = ->
           removeParameter(unescape(url()).replace(/\/$/, ''),'petaltoken').replace(/\?$/,'')
         )
 
-    # if un_reply in localStorage, post it
-    comment = window.localStorage.getItem(pu)
-    if comment
-      window.location.hash='#petal-textarea'
-      post_comment(comment)
+      # if un_reply in localStorage, post it
+      comment = window.localStorage.getItem(pu)
+      if comment
+        window.location.hash = '#petal-textarea'
+        post_comment(comment)
 
-    # listen to Ctrl+Enter
-    $('#petal-textarea').keydown(
-      (e)->
-        if e.keyCode == 10 || e.keyCode == 13 && e.ctrlKey
-          comment = $('#petal-textarea').val()
-          # if not empty
-          if comment
-            post_comment(comment)
-          else
-            err('Comment field was blank')
-    )
-    # listen to @
-    $('#petal-textarea').atwho('@', {data: users})
+      # listen to Ctrl+Enter
+      $('#petal-textarea').keydown(
+        (e)->
+          if e.keyCode == 10 || e.keyCode == 13 && e.ctrlKey
+            comment = $('#petal-textarea').val()
+            # if not empty
+            if comment
+              post_comment(comment)
+            else
+              err('Comment field was blank')
+      )
+      # listen to @
+      $('#petal-textarea').atwho('@', {data: users})
   )
 
 
@@ -149,9 +146,9 @@ post_comment = (comment)->
       if storage.getItem(pu)
         storage.removeItem(pu)
       # append to comments list
-      append_com(response)
+      append_comment(response)
       # reset textarea
-      $('#petal-textarea').val("")
+      $('#petal-textarea').val('')
     , 
     error: (jqXHR, error, errorThrown)->
       if jqXHR.status && jqXHR.status == 401
@@ -167,7 +164,7 @@ post_comment = (comment)->
 authorize = ->
   ur = 'https://github.com/login/oauth/authorize'
   ur += '?client_id=' + client_id + '&scope=public_repo,user&redirect_uri=' + proxy_url + '/?callback=' + url()
- window.location.replace(ur)
+  window.location.replace(ur)
 
 
 err = (message) ->
