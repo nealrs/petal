@@ -3,6 +3,12 @@ petal
 
 Github issues powered comments. Inspired by [sirbrad/comcom](https://github.com/sirbrad/comcom)
 
+Live Demo
+---------
+
+http://hit9.org/petal/
+
+
 How to use
 ----------
 
