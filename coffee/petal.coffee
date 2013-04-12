@@ -1,8 +1,25 @@
-repo_api = 'https://api.github.com/repos/'
-
 $ = jQuery
 
 $.support.cors = true
+
+# markdown parser
+marked = require "marked"
+
+repo_api = 'https://api.github.com/repos/'
+
+# client_id from github
+client_id = '2ae54488ab61bc732407'
+
+# without forward slash
+proxy_url = 'http://petal.ap01.aws.af.cm'
+
+# users commented on this issue
+users = []
+
+# items in localStorage
+pu = 'petal_un_reply'
+pt = 'petal_token'
+
 
 petal =
   repo: 'user/repo'
@@ -33,16 +50,6 @@ petal =
 
 $.petal = petal
 
-# client_id from github
-client_id = "2ae54488ab61bc732407"
-# without forward slash
-proxy_url = "http://petal.ap01.aws.af.cm"
-
-# markdown parser
-marked = require "marked"
-# users commented on this issue
-users = []
-
 
 render_comment_body = (comment_body)->
   com = marked(
@@ -54,7 +61,7 @@ render_comment_body = (comment_body)->
   )
 
 
-append_comment(comment)->
+append_comment = (comment)->
   $('.petal .comments ul').append('
     <li id="petal-comment-"' + comment.id + '">
       <div class="user">
@@ -87,7 +94,7 @@ load = ->
         # remove "/"
         token = token.replace(/^\/|\/$/g, '')
         storage = window.localStorage
-        storage.setItem('petaltoken', token)
+        storage.setItem(pt, token)
         # remove the token parameter in url without reload
         window.history.pushState(
           '',
@@ -97,7 +104,7 @@ load = ->
         )
 
     # if un_reply in localStorage, post it
-    comment = window.localStorage.getItem('petal_un_reply')
+    comment = window.localStorage.getItem(pu)
     if comment
       window.location.hash='#petal-textarea'
       post_comment(comment)
@@ -116,3 +123,55 @@ load = ->
     # listen to @
     $('#petal-textarea').atwho('@', {data: users})
   )
+
+
+post_comment = (comment)->
+  # if no token, goto oauth
+  storage = window.localStorage
+  token = storage.getItem(pt)
+  if token == null
+    storage.setItem(pu, comment)
+    return authorize()
+
+  comment += "\n *Comment from "+ url().replace(/\?$/,"")+"*"
+
+  $.ajax({
+    type: 'post',
+    url: petal.api_url, 
+    dataType: 'json',
+    data: JSON.stringify({'body': comment}), 
+    headers:{
+      Authorization: 'token ' + token,
+      Accept: 'application/json'
+    },
+    success: (response, status, jqXHR)->
+      # clear un_reply
+      if storage.getItem(pu)
+        storage.removeItem(pu)
+      # append to comments list
+      append_com(response)
+      # reset textarea
+      $('#petal-textarea').val("")
+    , 
+    error: (jqXHR, error, errorThrown)->
+      if jqXHR.status && jqXHR.status == 401
+        # store user's unreply comment content
+        storage.setItem(pu, comment)
+        # go to authorize again
+        authorize()
+      else
+          err('Something wrong')
+  })
+
+
+authorize = ->
+  ur = 'https://github.com/login/oauth/authorize'
+  ur += '?client_id=' + client_id + '&scope=public_repo,user&redirect_uri=' + proxy_url + '/?callback=' + url()
+ window.location.replace(ur)
+
+
+err = (message) ->
+  e = $('.petal .err')
+  e.text(message)
+  e.show()
+  e.delay(7000).fadeOut(300)
