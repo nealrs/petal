@@ -23,7 +23,8 @@ petal =
         <p class="err"></p>
         <textarea id="petal-textarea"></textarea>
         <p class="note" >
-          <a href="javascript:void(0);">Ctrl+Enter</a> to post comment.(Comments are parsed with <a href="http://github.github.com/github-flavored-markdown">GitHub Flavored Markdown</a>)
+          <a href="javascript:void(0);">Ctrl+Enter</a> to post comment.
+          (Comments are parsed with <a href="http://github.github.com/github-flavored-markdown">GitHub Flavored Markdown</a>)
         </p>
       </div>
       <div class="footer">By <a href="https://github.com/hit9/petal/">petal</a></div>
@@ -75,7 +76,43 @@ load = ->
     petal.api_url + '?callback=?',
     (response)->
       comments = response.data
+
       # load comments
       for comment in comments
         append_comment(comment)
+
+      # if token in url, set to localStorage
+      token = url('?petaltoken')
+      if token
+        # remove "/"
+        token = token.replace(/^\/|\/$/g, '')
+        storage = window.localStorage
+        storage.setItem('petaltoken', token)
+        # remove the token parameter in url without reload
+        window.history.pushState(
+          '',
+          document.title,
+          # remove "/" or "?" end of url
+          removeParameter(unescape(url()).replace(/\/$/, ''),'petaltoken').replace(/\?$/,'')
+        )
+
+    # if un_reply in localStorage, post it
+    comment = window.localStorage.getItem('petal_un_reply')
+    if comment
+      window.location.hash='#petal-textarea'
+      post_comment(comment)
+
+    # listen to Ctrl+Enter
+    $('#petal-textarea').keydown(
+      (e)->
+        if e.keyCode == 10 || e.keyCode == 13 && e.ctrlKey
+          comment = $('#petal-textarea').val()
+          # if not empty
+          if comment
+            post_comment(comment)
+          else
+            err('Comment field was blank')
+    )
+    # listen to @
+    $('#petal-textarea').atwho('@', {data: users})
   )
