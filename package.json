@@ -1,8 +1,0 @@
-{
-  "name": "petal",
-  "version": "0.3.0",
-  "dependencies":{
-    "marked" : "0.2.8",
-    "node-minify": "0.7.2"
-  }
-}
