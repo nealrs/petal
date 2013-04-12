@@ -17,6 +17,9 @@ users = []
 pu = 'petal_un_reply'
 pt = 'petal_token'
 
+# loader
+
+loader = 'http://hit9.org/petal/static/octocat-loader.gif'
 
 petal =
   repo: 'user/repo'
@@ -27,7 +30,7 @@ petal =
     this.api_url = repo_api + repo + '/issues/' + issue_id + '/comments'
     $('.petal').append('
       <div class="comments">
-        <ul></ul>
+        <ul><p class="loader"><img src="' + loader + '" /></p></ul>
       </div>
       <div class="reply">
         <p class="note">
@@ -82,6 +85,7 @@ load = ->
       comments = response.data
 
       # load comments
+      $('.petal .comments ul .loader').hide()
       for comment in comments
         append_comment(comment)
 
