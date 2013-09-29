@@ -80,7 +80,7 @@ Where the proxy script(which post to github for access_token) is ?
 
     http://petal.ap01.aws.af.cm
 
-And the script:
+And the py script:
 
 ```python
 from flask  import Flask, redirect, request, url_for
