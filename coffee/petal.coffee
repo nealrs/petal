@@ -34,17 +34,12 @@ petal =
       </div>
       <div class="reply">
         <p class="note">
-          *Require Github account
-          <a id="issue-src" href="https://github.com/' + repo + '/issues/' + issue_id + '">' + repo+'/issues/' + issue_id + '</a>
+          *Log into <a href="https://github.com" target="_blank">GitHub</a> to comment on this <a href="https://github.com/' + repo + '/issues/' + issue_id + '">thread</a>. Powered by <a href="https://github.com/hit9/petal" target="_blank">petal</a>. Supports <a href="http://github.github.com/github-flavored-markdown" target="_blank">GitHub Flavored Markdown</a>.
         </p>
         <p class="err"></p>
         <textarea id="petal-textarea"></textarea>
-        <p class="note" >
-          <a href="javascript:void(0);">Ctrl+Enter</a> to post comment.
-          (Comments are parsed with <a href="http://github.github.com/github-flavored-markdown">GitHub Flavored Markdown</a>)
-        </p>
+        <button id="sub_comment" class="btn btn-primary" type="button">Post comment</button>
       </div>
-      <div class="footer">By <a href="https://github.com/hit9/petal/">petal</a></div>
     ')
     load()
 
