@@ -113,7 +113,7 @@ load = ->
           if comment
             post_comment(comment)
           else
-            err('Comment field was blank')
+            err('Comment field is blank')
       )
       # listen to @
       $('#petal-textarea').atwho('@', {data: users})
@@ -155,7 +155,7 @@ post_comment = (comment)->
         # go to authorize again
         authorize()
       else
-          err('Something wrong')
+          err('Something is wrong')
   })
 
 
