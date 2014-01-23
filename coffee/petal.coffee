@@ -105,16 +105,15 @@ load = ->
         window.location.hash = '#petal-textarea'
         post_comment(comment)
 
-      # listen to Ctrl+Enter
-      $('#petal-textarea').keydown(
+      # listen to post comment button
+      $('#sub_comment').click(
         (e)->
-          if e.keyCode == 10 || e.keyCode == 13 && e.ctrlKey
-            comment = $('#petal-textarea').val()
-            # if not empty
-            if comment
-              post_comment(comment)
-            else
-              err('Comment field was blank')
+          comment = $('#petal-textarea').val()
+          # if not empty
+          if comment
+            post_comment(comment)
+          else
+            err('Comment field was blank')
       )
       # listen to @
       $('#petal-textarea').atwho('@', {data: users})
